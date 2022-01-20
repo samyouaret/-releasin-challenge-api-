@@ -1,6 +1,6 @@
 datasource db {
   provider = "postgres"
-  url      = env("DATABASE_URL_TEST")
+  url      = env("DATABASE_URL")
 }
 
 generator client {
@@ -9,6 +9,58 @@ generator client {
 }
 
 model Product {
-  id        String  @id @default(uuid())
-  name String  @db.VarChar(255)
+  id                String                       @id @default(uuid())
+  name              String                       @db.VarChar(255)
+  created_at        DateTime                     @default(now())
+  updated_at        DateTime                     @default(now())
+  productType       ProductType                  @relation(fields: [productTypeId], references: [id])
+  productTypeId     String
+  assignedAttribute AssignedAttributeOnProduct[]
+}
+
+model ProductType {
+  id         String    @id @default(uuid())
+  name       String    @db.VarChar(255)
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now())
+  Product    Product[]
+}
+
+model Attribute {
+  id               String         @id @default(uuid())
+  name             String         @db.VarChar(255)
+  created_at       DateTime       @default(now())
+  updated_at       DateTime       @default(now())
+  AttributeValue   AttributeValue @relation(fields: [attributeValueId], references: [id])
+  attributeValueId String
+}
+
+model AttributeValue {
+  id                String              @id @default(uuid())
+  // the type of this value
+  name              String              @db.VarChar(255)
+  // store a boolean
+  boolean           Boolean?
+  // store date
+  date              DateTime?
+  // store text
+  text              String?
+  Attribute         Attribute[]
+  AssignedAttribute AssignedAttribute[]
+}
+
+model AssignedAttribute {
+  id               String                       @id @default(uuid())
+  AttributeValue   AttributeValue               @relation(fields: [attributeValueId], references: [id])
+  attributeValueId String
+  products         AssignedAttributeOnProduct[]
+}
+
+model AssignedAttributeOnProduct {
+  product             Product           @relation(fields: [productId], references: [id])
+  productId           String // relation scalar field (used in the `@relation` attribute above)
+  assignedAttribute   AssignedAttribute @relation(fields: [assignedAttributeId], references: [id])
+  assignedAttributeId String // relation scalar field (used in the `@relation` attribute above)
+
+  @@id([productId, assignedAttributeId])
 }

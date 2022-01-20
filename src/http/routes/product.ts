@@ -107,6 +107,8 @@ export default async function productRoutes(app: Application): Promise<Router> {
      *         description: Target product not found.
      */
     router.get('/api/products/:id', controller.one.bind(controller))
+    router.post('/api/products', controller.create.bind(controller))
+    router.patch('/api/products/:id', controller.update.bind(controller))
 
     return router
 }
