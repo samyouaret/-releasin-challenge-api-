@@ -4,16 +4,17 @@ A proposed implementation of production management over an HTTP REST API.
 
 ## Development Part
 
-If you want to get your hand dirty, you can start by cloning this repository, Altghouh the goal was to setup docker-compose configuration for quick devlopement, the only dependency is `Postgres`, create a database name `releasin_app`.
+If you want to get your hand dirty, you can start by cloning this repository, Altghouh the goal was to setup` docker-compose` configuration for quick devlopement, the only dependency is `Postgres`, create a database name `releasin_app`.
 
     git clone https://github.com/samyouaret/releasin-challenge-api.git
 
-you can use the same instructions as in the Running the application section or install `nodejs` and yarn (recommended) and you are ready to go.
+You need to install `nodejs` and yarn (recommended) and you are ready to go.
 
 Create an `.env` file:
 
     cp .env.example .env
 
+Then setup the ENV variables in `.env`.
 
 Run the migration
 
