@@ -50,9 +50,11 @@ A swagger documentation is supposed to be found on local host after running the 
 
 A Basic **Postman** collection is available in `docs/postman`, import to postman so you can quickly interact the endpoints.
 
+When using Postman doc make sure to replace params and request body with appropriate values.
+
 ## Application structure
 
-While making it work is good, making it maintainable and testable is more important. The application structure is a clean(we strive to) layered architecture with respect to the **SOLID** principles.
+While making it work is good, making it maintainable and testable is more important. The application structure is a layered architecture with respect to the **SOLID** principles.
 
 Each layer serves a specific purpose, the ultimate goal is to make each layer replaceable and testable on its own without the need for setting up the application.
 
@@ -95,23 +97,25 @@ Typescript has more type-safety than javascript, it helps to show more semantics
 
 ```
 src
+├── app
+│   └── services
 ├── Application.ts
 ├── bootstrap.ts
 ├── config
 │   └── server.config.ts
+│   └── database.ts
 ├── contracts
 │   ├── ApplicationGateway.ts
+│   ├── ServiceContract.ts
 │   ├── Initiable.ts
 │   ├── Startable.ts
-│   └── StoreInteface.ts
 ├── database
-│   ├── InMemoryStore.ts
-│   └── JsonStore.ts
+│   ├── migrations
+│   └── Jsonschema.prisma
 ├── factory
 │   ├── createApplication.ts
 │   ├── createHttpServer.ts
-│   ├── createInMemoryStore.ts
-│   └── createJsonStore.ts
+│   └── createPrisma.ts
 ├── helpers
 ├── http
 │   ├── HttpServerGateway.ts
@@ -119,19 +123,10 @@ src
 │   └── routes
 ├── index.ts
 ├── repositories
-│   ├── OrderRepository.ts
-│   └── SupplierRepository.ts
 ├── services
-│   ├── OrderService.ts
-│   └── SupplierService.ts
 └── tests
     ├── e2e
-    │   ├── orders.test.ts
-    │   └── suppliers.test.ts
     └── unit
-        └── services
-            ├── orders.test.ts
-            └── suppliers.test.ts
 ```
 
 the `Application` is the starting point of the application, bootstrap file and index help us just for a clean setup of the application.
@@ -152,8 +147,9 @@ Accessing data is done via `repositories` that use `stores` in the `database` fo
 
 ## PinPoints and considerations
 
+
 Some pinPoints faced when tinkering around the challenge wereThe hierarchy structure of relations, and Typevalue many types in one table.
 
-for hierarchy structure the product management is more like settings so a NoSQL database would fit better in this case, other parts could still use a relational database.
+For The ierarchy structure, the product management is more like settings so a NoSQL database would fit better in this case, other parts could still use a relational database.
 
-Type value could be separated, each type value should have its own table, or a general approach would be serializing the value and type in string format but yet we should care about search capabilities, considering the capabilities of native types supported by databases.
+Type value could be separated, each type value should have its own table, or a general approach would be serializing the value and type in string format and all types are stored in on table the value field is only one stored as a string, but yet we should care about search capabilities, considering the capabilities of native types supported by databases.
