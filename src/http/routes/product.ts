@@ -11,8 +11,8 @@ export default async function productRoutes(app: Application): Promise<Router> {
     const repository = new ProductRepository(prisma);
     const productService = new ProductService(repository)
     const controller = new ProductController(productService);
-    const router = express.Router()
-
+    const router = express.Router();
+    router.use(express.json());
     /**
      * @openapi
      * /products:

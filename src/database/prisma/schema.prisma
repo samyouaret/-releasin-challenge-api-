@@ -19,20 +19,34 @@ model Product {
 }
 
 model ProductType {
-  id         String    @id @default(uuid())
-  name       String    @db.VarChar(255)
-  created_at DateTime  @default(now())
-  updated_at DateTime  @default(now())
-  Product    Product[]
+  id                   String                 @id @default(uuid())
+  name                 String                 @db.VarChar(255)
+  created_at           DateTime               @default(now())
+  updated_at           DateTime               @default(now())
+  Product              Product[]
+  Attribute            Attribute[]
+  ProductTypeAtributes ProductTypeAtributes[]
+}
+
+model ProductTypeAtributes {
+  productType   ProductType @relation(fields: [productTypeId], references: [id])
+  productTypeId String // relation scalar field (used in the `@relation` attribute above)
+  Attribute     Attribute   @relation(fields: [attributeId], references: [id])
+  attributeId   String // relation scalar field (used in the `@relation` attribute above)
+
+  @@id([productTypeId, attributeId])
 }
 
 model Attribute {
-  id               String         @id @default(uuid())
-  name             String         @db.VarChar(255)
-  created_at       DateTime       @default(now())
-  updated_at       DateTime       @default(now())
-  AttributeValue   AttributeValue @relation(fields: [attributeValueId], references: [id])
-  attributeValueId String
+  id                   String                 @id @default(uuid())
+  name                 String                 @db.VarChar(255)
+  created_at           DateTime               @default(now())
+  updated_at           DateTime               @default(now())
+  AttributeValue       AttributeValue         @relation(fields: [attributeValueId], references: [id])
+  attributeValueId     String
+  ProductTypeAtributes ProductTypeAtributes[]
+  ProductType          ProductType?           @relation(fields: [productTypeId], references: [id])
+  productTypeId        String?
 }
 
 model AttributeValue {

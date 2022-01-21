@@ -21,7 +21,10 @@ class ProductController {
     }
 
     async create(req: Request, res: Response): Promise<void> {
-        let product = await this.productService.create({ data: req.body });
+        let product = await this.productService.create({ data: {
+            name: req.body.name,
+            productTypeId: req.body.productTypeId,
+        } });
         res.status(201).json(product);
     }
 

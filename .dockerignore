@@ -1,7 +1,0 @@
-./node_modules
-./coverage
-./build
-tmp/
-temp/
-yarn-error.log
-.vscode/

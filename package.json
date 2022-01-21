@@ -10,6 +10,7 @@
   "scripts": {
     "start": "ts-node ./src/index.ts",
     "start:build": "node ./build/index.js",
+    "migrate": "prisma migrate dev",
     "build": "tsc",
     "lint": "ts-standard --fix",
     "test": "jest -- ./src/tests --runInBand --detectOpenHandles",

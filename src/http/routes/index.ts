@@ -3,6 +3,7 @@ import error500 from './500'
 import attributeRoutes from './attributes'
 import logger from './logger'
 import productRoutes from './product'
+import productTypesRoutes from './product-type'
 import rootRoutes from './root'
 import swaggerRoute from './swagger'
 
@@ -15,6 +16,7 @@ const routes = [
   rootRoutes,
   logger,
   productRoutes,
+  productTypesRoutes,
   attributeRoutes,
   swaggerRoute,
   error404,
